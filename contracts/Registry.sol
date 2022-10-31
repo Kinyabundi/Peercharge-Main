@@ -3,9 +3,24 @@
 pragma solidity ^0.8.7;
 
 
-import 'https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol';
+//import 'https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol';
+//import './CreditHolderNFTs.sol';
+ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract Registry is Ownable {
+
+
+contract Registry is Ownable, ERC721URIStorage {
+//   using Counters for Counters.counter;
+//     Counters.counter private _tokenIds;
+    uint256 newItemId;
+
+
+    constructor() public ERC721( "MyNFT", "NFT" ) {
+        newItemId = 0;
+
+    }
 
 uint totalRegistered = 0;
 uint verifiercount=0;
@@ -38,6 +53,7 @@ mapping (uint => verifier) public verifiers;
 
 
 event newCreditHolder(string name, string email, string chargingstationName, uint holderId, uint creditsHeld, uint pricepercredit, uint creditvalidityperiod, address _addr);
+//event mint( address _holder);
 
 function registerCreditHolder(string memory name, string memory email, string memory chargingstationName, uint holderId, uint creditsHeld, uint pricepercredit, uint creditvalidityperiod) public {
     totalRegistered++;
@@ -52,7 +68,10 @@ function registerCreditHolder(string memory name, string memory email, string me
         creditvalidityperiod,
         msg.sender);
     emit newCreditHolder(name,  email, chargingstationName, holderId, creditsHeld, pricepercredit,creditvalidityperiod, msg.sender);
+  //  emit mintchargingstation();
 }
+
+
 function registerVerifiers(string memory name, string memory email, string memory Country, uint reg_no, uint license_no) public {
         verifiercount++;
         // check if verifier exist already
@@ -75,6 +94,12 @@ function getCreditHolders() public view returns (CarbonCreditHolder[] memory){
     }
     return ret;
 }
+ function mintNFT (address _holder )
+    public onlyOwner returns (uint256){
+        newItemId +=1;
+        _mint(_holder, newItemId);
+        return newItemId;
+    }
 
   
 }
