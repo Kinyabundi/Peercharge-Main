@@ -10,21 +10,52 @@ import {
   useColorMode,
   useColorModeValue,
 } from '@chakra-ui/react';
+import React from "react"
 import { useEffect, useState } from 'react';
 import { 
     connectWallet,
     getCurrentWalletConnected,
     registerCreditHolder,
     registerVerifiers,
-    mintNFT,
-} from "../pages/util/interact"
+    RegistryContract,
+} from "../pages/util/interact.js"
+
 
 const Login = () => {
+    const [walletAddress, setWallet] = useState("");
+    const [status, setStatus] = useState("");
+   // const[registerCreditHolder, setRegisterCreditHolder] = useState();
+
+    useEffect(async() => {},[]);
+    // function addSmartContractListner() {
+      
+    // };
+    function addWallectListener() {
+
+    };
+    const connectWalletPressed = async () => {
+
+    };
+    const RegisterCreditHolder = async () => {
+        
+    };
+
   const { toggleColorMode } = useColorMode();
   const formBackground = useColorModeValue('gray.100', 'gray.700');
 
   return (
     <Flex h="100vh" alignItems="center" justifyContent="center">
+      <Button colorScheme="purple" size="lg" mt="6" onClick = {connectWalletPressed}>
+      {walletAddress.length > 0 ? (
+          "Connected: " +
+          String(walletAddress).substring(0, 6) +
+          "..." +
+          String(walletAddress).substring(38)
+        ) : (
+          <span>Connect Wallet</span>
+        )}
+            
+          </Button>
       <Flex
         flexDirection="column"
         bg={formBackground}
@@ -57,7 +88,7 @@ const Login = () => {
           variant="filled"
           mb={6}
         />
-        <Button colorScheme="teal" mb={8}>
+        <Button id = "Register" onClick={RegisterCreditHolder} colorScheme="teal" mb={8}>
           Log In
         </Button>
         <FormControl display="flex" alignItems="center">
