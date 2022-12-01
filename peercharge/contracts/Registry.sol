@@ -4,19 +4,19 @@ pragma solidity ^0.8.17;
 
 
 //import 'https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol';
- //import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
  //import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 //import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract Registry is Ownable {
+contract Registry is Ownable, ERC721URIStorage {
 //   using Counters for Counters.counter;
 //     Counters.counter private _tokenIds;
     uint256 newItemId;
    
 
 
-    constructor()  {
+    constructor() public ERC721( "MyNFT", "NFT" ) {
         newItemId = 0;
      totalCreditHolders[address(this)] = 10;
 
@@ -98,11 +98,12 @@ function getCreditHolders() public view returns (CarbonCreditHolder[] memory){
     }
     return ret;
 }
- //function mintNFT (address _holder )
-   // public onlyOwner returns (uint256){
-     //   newItemId +=1;
-       // _mint(_holder, newItemId);
-        //return newItemId; }
+ function mintNFT (address _holder )
+    public onlyOwner returns (uint256){
+        newItemId +=1;
+        _mint(_holder, newItemId);
+        return newItemId; 
+    }
     
 function getTotalCreditHolders() public view returns(uint) {
     return totalCreditHolders[address(this)];
